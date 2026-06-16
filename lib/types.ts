@@ -13,6 +13,7 @@ export type RecognitionResponse = BandProfile & {
   source?: "polza-ai" | "heuristic";
   recognized?: boolean;
   reason?: string;
+  catalogMatch?: boolean;
 };
 
 export type DrawingFeatures = {

@@ -68,7 +68,8 @@ export function recognizeLogo(image: string, features?: DrawingFeatures): Recogn
       confidence: Math.min(72, Math.max(54, selected.confidence - 24 - (signal.length % 7))),
       analyzedAt: new Date().toISOString(),
       source: "heuristic",
-      recognized: true
+      recognized: true,
+      catalogMatch: true
     };
   }
 
@@ -90,6 +91,7 @@ export function recognizeLogo(image: string, features?: DrawingFeatures): Recogn
     confidence,
     analyzedAt: new Date().toISOString(),
     source: "heuristic",
-    recognized: true
+    recognized: true,
+    catalogMatch: true
   };
 }

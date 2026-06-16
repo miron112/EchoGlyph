@@ -75,7 +75,7 @@ export function ResultPanel({ result, loading = false }: ResultPanelProps) {
         <div>
           <p className="flex items-center gap-2 text-sm font-semibold text-neon">
             <BadgeCheck className="h-4 w-4" />
-            Best match
+            {result.catalogMatch === false ? "AI match" : "Best match"}
           </p>
           <h2 className="mt-1 text-3xl font-black text-white">{result.group}</h2>
         </div>

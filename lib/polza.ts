@@ -83,7 +83,8 @@ function normalizeAiResult(result: AiRecognition): RecognitionResponse {
       topSongs: topSongs ?? knownBand.topSongs,
       analyzedAt: new Date().toISOString(),
       source: "polza-ai",
-      recognized: true
+      recognized: true,
+      catalogMatch: true
     };
   }
 
@@ -99,7 +100,8 @@ function normalizeAiResult(result: AiRecognition): RecognitionResponse {
     topSongs: topSongs ?? ["Unknown track", "Unknown track", "Unknown track", "Unknown track", "Unknown track"],
     analyzedAt: new Date().toISOString(),
     source: "polza-ai",
-    recognized: true
+    recognized: true,
+    catalogMatch: false
   };
 }
 
@@ -157,21 +159,24 @@ export async function recognizeLogoWithPolza(image: string, features?: DrawingFe
         {
           role: "system",
           content:
-            "You are a conservative visual recognition engine for hand-drawn music band logos. Your first job is to reject non-logos, random marks, simple lines, dots, scribbles, blank canvases, and drawings without distinctive band-logo structure. Return only valid JSON. Do not add markdown."
+            "You are a conservative open-world visual recognition engine for hand-drawn music artist and band logos. You may identify any real musical artist or band worldwide, including Russian and non-English artists. Your first job is to reject non-logos, random marks, simple lines, dots, scribbles, blank canvases, and drawings without distinctive music-logo structure. Return only valid JSON. Do not add markdown."
         },
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: `Analyze this canvas as a possible hand-drawn music band logo. Prefer these local catalog bands only when the drawing is genuinely recognizable: ${catalog}. ${featureSummary}
+              text: `Analyze this canvas as a possible hand-drawn music artist or band logo. This is an open-world recognition task: do not limit yourself to the local catalog. You can answer with any real music group or artist if the logo is recognizable, including Russian artists and bands. The local catalog is only a UI enhancement list for known matches, not a whitelist: ${catalog}. ${featureSummary}
 
 Rules:
 - If the drawing is blank, a single line, a simple stripe, a dot, random scribble, or too generic, return "recognized": false.
 - If there is not enough distinctive visual evidence for a real band logo, return "recognized": false.
 - Do not guess just to fill the answer.
+- Do not force the answer into the local catalog.
 - Use confidence below 55 when recognized is false.
-- Only return recognized true when you can name a plausible band logo from visible features.
+- Return recognized true only when visible features strongly resemble a known music logo, mascot, emblem, wordmark, or artist symbol.
+- If the logo belongs to a real artist or band outside the local catalog, return that artist or band name.
+- For topSongs, return five well-known songs by the recognized artist when possible.
 
 Return JSON with exactly:
 {
