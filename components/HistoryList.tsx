@@ -70,7 +70,7 @@ export function HistoryList({ limit, items, showViewAll = false }: HistoryListPr
             className="group rounded-lg border border-white/10 bg-white/[0.04] p-3 transition hover:-translate-y-0.5 hover:border-neon/35 hover:bg-white/[0.07]"
           >
             <div className="flex gap-3">
-              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-[#080a13]">
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-[#2b201e]">
                 {/* eslint-disable-next-line @next/next/no-img-element -- Data URLs from localStorage are rendered directly. */}
                 <img src={item.drawing} alt={`${item.result.group} drawing`} className="h-full w-full object-contain" />
               </div>

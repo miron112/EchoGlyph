@@ -25,12 +25,12 @@ export function BandVisual({ image, group, accent, compact = false }: BandVisual
       style={{
         background:
           image === "nirvana"
-            ? `radial-gradient(circle at center, ${accent} 0 8%, transparent 9% 100%), linear-gradient(135deg, #121212, #302600)`
+            ? `radial-gradient(circle at center, ${accent} 0 8%, transparent 9% 100%), linear-gradient(135deg, #2a201d, #4a3529)`
             : image === "daftpunk"
-              ? `linear-gradient(120deg, rgba(125,249,255,.22), rgba(255,78,205,.2)), linear-gradient(145deg, #080812, #1f233f)`
+              ? `linear-gradient(120deg, rgba(243,198,165,.22), rgba(231,166,161,.2)), linear-gradient(145deg, #241b1a, #49322f)`
               : image === "acdc"
-                ? `linear-gradient(135deg, #120908, #31170a 55%, #080812)`
-                : `linear-gradient(135deg, rgba(255,255,255,.06), ${accent}33), linear-gradient(145deg, #080812, #181b35)`
+                ? `linear-gradient(135deg, #2a1b18, #563426 55%, #241b1a)`
+                : `linear-gradient(135deg, rgba(255,236,220,.07), ${accent}33), linear-gradient(145deg, #241b1a, #49322f)`
       }}
     >
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.07)_1px,transparent_1px)] bg-[size:24px_24px] opacity-25" />
