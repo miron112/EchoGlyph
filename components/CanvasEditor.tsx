@@ -185,7 +185,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
   const drawingRef = useRef(false);
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
   const [brushSize, setBrushSize] = useState(12);
-  const [brushColor, setBrushColor] = useState("#7df9ff");
+  const [brushColor, setBrushColor] = useState("#f3c6a5");
   const [tool, setTool] = useState<"brush" | "eraser">("brush");
   const [history, setHistory] = useState<string[]>([blankState]);
   const [historyIndex, setHistoryIndex] = useState(0);
@@ -394,7 +394,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[#080a13] shadow-glow">
+      <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[#2b201e] shadow-glow">
         <canvas
           ref={canvasRef}
           width={CANVAS_WIDTH}
@@ -404,7 +404,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
           onPointerUp={endDraw}
           onPointerCancel={endDraw}
           onPointerLeave={endDraw}
-          className="block h-[430px] w-full touch-none cursor-crosshair bg-[radial-gradient(circle_at_50%_50%,rgba(125,249,255,.08),transparent_36%),linear-gradient(rgba(255,255,255,.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.045)_1px,transparent_1px)] bg-[size:auto,32px_32px,32px_32px] sm:h-[560px]"
+          className="block h-[430px] w-full touch-none cursor-crosshair bg-[radial-gradient(circle_at_50%_50%,rgba(243,198,165,.1),transparent_36%),linear-gradient(rgba(255,236,220,.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,236,220,.045)_1px,transparent_1px)] bg-[size:auto,32px_32px,32px_32px] sm:h-[560px]"
           aria-label="Холст для рисования логотипа группы"
         />
         <div className="pointer-events-none absolute left-4 top-4 rounded-md border border-white/10 bg-black/35 px-3 py-1 text-xs text-white/40 backdrop-blur">
