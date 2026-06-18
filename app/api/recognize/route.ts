@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   const body = (await request.json()) as RecognitionRequest;
 
   if (!body.image || !body.image.startsWith("data:image/")) {
-    return NextResponse.json({ message: "Canvas image is required." }, { status: 400 });
+    return NextResponse.json({ message: "Необходимо изображение с холста." }, { status: 400 });
   }
 
   const allowHeuristicFallback = process.env.RECOGNITION_FALLBACK === "heuristic";
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message:
-          "Polza.ai API key is not configured. Create .env.local with POLZA_AI_API_KEY, or set RECOGNITION_FALLBACK=heuristic for local mock mode."
+          "Ключ API Polza.ai не настроен. Создайте файл .env.local с POLZA_AI_API_KEY или задайте RECOGNITION_FALLBACK=heuristic для локального демонстрационного режима."
       },
       { status: 503 }
     );
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
           message:
             error instanceof Error
               ? error.message
-              : "Polza.ai recognition failed. Check the API key, model name, balance, and provider availability."
+              : "Не удалось выполнить распознавание через Polza.ai. Проверьте ключ API, название модели, баланс и доступность сервиса."
         },
         { status: 502 }
       );

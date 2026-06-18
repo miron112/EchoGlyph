@@ -8,7 +8,7 @@ export const bandCatalog: BandProfile[] = [
     image: "metallica",
     accent: "#ff4e4e",
     description:
-      "Thrash metal titans with sharp angular branding, arena-sized riffs, and one of the most recognizable marks in heavy music.",
+      "Титаны трэш-метала с острым угловатым стилем, стадионными риффами и одним из самых узнаваемых знаков в тяжёлой музыке.",
     topSongs: [
       "Enter Sandman",
       "Nothing Else Matters",
@@ -24,7 +24,7 @@ export const bandCatalog: BandProfile[] = [
     image: "nirvana",
     accent: "#f7df4d",
     description:
-      "A raw grunge icon whose simple, memorable visual language turned underground noise into global culture.",
+      "Икона гранжа, чей простой и запоминающийся визуальный язык превратил андеграундный шум в явление мировой культуры.",
     topSongs: [
       "Smells Like Teen Spirit",
       "Come As You Are",
@@ -40,7 +40,7 @@ export const bandCatalog: BandProfile[] = [
     image: "daftpunk",
     accent: "#7df9ff",
     description:
-      "French electronic futurists known for chrome helmets, robotic silhouettes, and precision-built dance music.",
+      "Французские электронные футуристы, известные хромированными шлемами, роботизированными силуэтами и безупречно выстроенной танцевальной музыкой.",
     topSongs: [
       "Get Lucky",
       "One More Time",
@@ -56,7 +56,7 @@ export const bandCatalog: BandProfile[] = [
     image: "queen",
     accent: "#b9ff5f",
     description:
-      "A theatrical rock institution with royal iconography, soaring harmonies, and a catalog built for stadiums.",
+      "Легенды театрального рока с королевской символикой, величественными гармониями и песнями, созданными для стадионов.",
     topSongs: [
       "Bohemian Rhapsody",
       "Don't Stop Me Now",
@@ -72,7 +72,7 @@ export const bandCatalog: BandProfile[] = [
     image: "radiohead",
     accent: "#a78bfa",
     description:
-      "Art-rock shapeshifters with anxious symbols, experimental production, and songs that keep mutating with time.",
+      "Мастера арт-рока с тревожной символикой, экспериментальным звучанием и песнями, которые продолжают меняться со временем.",
     topSongs: ["Creep", "Karma Police", "No Surprises", "Paranoid Android", "Fake Plastic Trees"]
   },
   {
@@ -82,7 +82,7 @@ export const bandCatalog: BandProfile[] = [
     image: "acdc",
     accent: "#ffb020",
     description:
-      "Hard rock minimalists with a lightning-bolt identity, lean riffs, and instantly legible stage energy.",
+      "Минималисты хард-рока с фирменной молнией, лаконичными риффами и мгновенно узнаваемой сценической энергией.",
     topSongs: [
       "Back In Black",
       "Highway to Hell",

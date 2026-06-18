@@ -35,11 +35,11 @@ export function HistoryList({ limit, items, showViewAll = false }: HistoryListPr
       <section className="glass-panel p-6">
         <div className="flex items-center gap-3">
           <History className="h-5 w-5 text-neon" />
-          <h2 className="text-xl font-black text-white">Your History</h2>
+          <h2 className="text-xl font-black text-white">Ваша история</h2>
         </div>
         <div className="mt-5 rounded-lg border border-dashed border-white/15 bg-white/[0.03] p-8 text-center">
           <Music2 className="mx-auto h-8 w-8 text-white/35" />
-          <p className="mt-3 text-sm text-white/50">Recognized drawings will appear here automatically.</p>
+          <p className="mt-3 text-sm text-white/50">Распознанные рисунки автоматически появятся здесь.</p>
         </div>
       </section>
     );
@@ -50,11 +50,11 @@ export function HistoryList({ limit, items, showViewAll = false }: HistoryListPr
       <div className="mb-5 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <History className="h-5 w-5 text-neon" />
-          <h2 className="text-xl font-black text-white">Your History</h2>
+          <h2 className="text-xl font-black text-white">Ваша история</h2>
         </div>
         {showViewAll && (
           <Link href="/history" className="flex items-center gap-2 text-sm font-semibold text-neon hover:text-white">
-            View all
+            Показать всё
             <ArrowRight className="h-4 w-4" />
           </Link>
         )}
@@ -72,7 +72,7 @@ export function HistoryList({ limit, items, showViewAll = false }: HistoryListPr
             <div className="flex gap-3">
               <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-[#080a13]">
                 {/* eslint-disable-next-line @next/next/no-img-element -- Data URLs from localStorage are rendered directly. */}
-                <img src={item.drawing} alt={`${item.result.group} drawing`} className="h-full w-full object-contain" />
+                <img src={item.drawing} alt={`Рисунок логотипа ${item.result.group}`} className="h-full w-full object-contain" />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
@@ -80,7 +80,7 @@ export function HistoryList({ limit, items, showViewAll = false }: HistoryListPr
                     <h3 className="truncate text-base font-bold text-white">{item.result.group}</h3>
                     <p className="mt-1 flex items-center gap-1 text-xs text-white/45">
                       <Calendar className="h-3 w-3" />
-                      {new Intl.DateTimeFormat("en", {
+                      {new Intl.DateTimeFormat("ru-RU", {
                         month: "short",
                         day: "numeric",
                         hour: "2-digit",
@@ -91,7 +91,7 @@ export function HistoryList({ limit, items, showViewAll = false }: HistoryListPr
                   <BandVisual image={item.result.image} group={item.result.group} accent={item.result.accent} compact />
                 </div>
                 <button type="button" onClick={() => openAgain(item)} className="mt-3 w-full rounded-md border border-white/10 bg-white/[0.05] px-3 py-2 text-sm font-semibold text-white/70 transition group-hover:border-neon/40 group-hover:text-white">
-                  Open again
+                  Открыть снова
                 </button>
               </div>
             </div>

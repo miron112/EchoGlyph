@@ -189,7 +189,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
   const [tool, setTool] = useState<"brush" | "eraser">("brush");
   const [history, setHistory] = useState<string[]>([blankState]);
   const [historyIndex, setHistoryIndex] = useState(0);
-  const [status, setStatus] = useState("Ready to draw");
+  const [status, setStatus] = useState("Можно рисовать");
 
   const getContext = useCallback(() => {
     const canvas = canvasRef.current;
@@ -275,7 +275,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
     event.currentTarget.setPointerCapture(event.pointerId);
     drawingRef.current = true;
     lastPointRef.current = getPoint(event);
-    setStatus(tool === "eraser" ? "Erasing" : "Drawing");
+    setStatus(tool === "eraser" ? "Стирание" : "Рисование");
   };
 
   const draw = (event: React.PointerEvent<HTMLCanvasElement>) => {
@@ -308,7 +308,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
     drawingRef.current = false;
     lastPointRef.current = null;
     pushHistory();
-    setStatus("Saved locally");
+    setStatus("Сохранено локально");
   };
 
   const clearCanvas = () => {
@@ -319,21 +319,21 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
 
     context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     pushHistory();
-    setStatus("Canvas cleared");
+    setStatus("Холст очищен");
   };
 
   const undo = () => {
     const nextIndex = Math.max(0, historyIndex - 1);
     setHistoryIndex(nextIndex);
     restoreImage(history[nextIndex]);
-    setStatus("Undo");
+    setStatus("Действие отменено");
   };
 
   const redo = () => {
     const nextIndex = Math.min(history.length - 1, historyIndex + 1);
     setHistoryIndex(nextIndex);
     restoreImage(history[nextIndex]);
-    setStatus("Redo");
+    setStatus("Действие повторено");
   };
 
   const downloadImage = () => {
@@ -341,14 +341,14 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
     link.href = canvasToImage();
     link.download = `echoglyph-${new Date().toISOString().slice(0, 10)}.png`;
     link.click();
-    setStatus("Drawing exported");
+    setStatus("Рисунок экспортирован");
   };
 
   const recognize = async () => {
     const image = canvasToImage();
     const features = getFeatures();
     onRecognizing(true);
-    setStatus("Recognizing");
+    setStatus("Распознавание");
 
     try {
       const response = await fetch("/api/recognize", {
@@ -359,19 +359,19 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
 
       if (!response.ok) {
         const error = (await response.json().catch(() => null)) as { message?: string } | null;
-        throw new Error(error?.message || "Recognition failed");
+        throw new Error(error?.message || "Не удалось распознать рисунок");
       }
 
       const result = (await response.json()) as RecognitionResponse;
       onResult(result);
       if (result.recognized !== false) {
         onHistoryItem(addHistoryItem(image, result));
-        setStatus(`Matched ${result.group}`);
+        setStatus(`Найдено совпадение: ${result.group}`);
       } else {
-        setStatus("No recognizable logo found");
+        setStatus("Распознаваемый логотип не найден");
       }
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : "Recognition failed");
+      setStatus(error instanceof Error ? error.message : "Не удалось распознать рисунок");
     } finally {
       onRecognizing(false);
     }
@@ -386,8 +386,8 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
     >
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-neon">Paint studio</p>
-          <h1 className="text-2xl font-black text-white sm:text-3xl">Draw the soundmark</h1>
+          <p className="text-sm font-semibold text-neon">Студия рисования</p>
+          <h1 className="text-2xl font-black text-white sm:text-3xl">Нарисуйте музыкальный знак</h1>
         </div>
         <div className="rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-xs font-semibold text-white/55">
           {status}
@@ -405,7 +405,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
           onPointerCancel={endDraw}
           onPointerLeave={endDraw}
           className="block h-[430px] w-full touch-none cursor-crosshair bg-[radial-gradient(circle_at_50%_50%,rgba(125,249,255,.08),transparent_36%),linear-gradient(rgba(255,255,255,.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.045)_1px,transparent_1px)] bg-[size:auto,32px_32px,32px_32px] sm:h-[560px]"
-          aria-label="Band logo drawing canvas"
+          aria-label="Холст для рисования логотипа группы"
         />
         <div className="pointer-events-none absolute left-4 top-4 rounded-md border border-white/10 bg-black/35 px-3 py-1 text-xs text-white/40 backdrop-blur">
           1200 x 760
@@ -417,7 +417,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
           <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
-              title="Brush"
+              title="Кисть"
               onClick={() => setTool("brush")}
               className={tool === "brush" ? "icon-button active" : "icon-button"}
             >
@@ -425,16 +425,16 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
             </button>
             <button
               type="button"
-              title="Eraser"
+              title="Ластик"
               onClick={() => setTool("eraser")}
               className={tool === "eraser" ? "icon-button active" : "icon-button"}
             >
               <Eraser className="h-4 w-4" />
             </button>
-            <label title="Brush color" className="grid h-10 w-10 cursor-pointer place-items-center rounded-md border border-white/10 bg-white/[0.06]">
+            <label title="Цвет кисти" className="grid h-10 w-10 cursor-pointer place-items-center rounded-md border border-white/10 bg-white/[0.06]">
               <span className="h-5 w-5 rounded-full border border-white/25" style={{ backgroundColor: brushColor }} />
               <input
-                aria-label="Brush color"
+                aria-label="Цвет кисти"
                 type="color"
                 value={brushColor}
                 onChange={(event) => setBrushColor(event.target.value)}
@@ -444,7 +444,7 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
           </div>
 
           <label className="flex min-w-[210px] flex-1 basis-[260px] items-center gap-3 text-sm font-medium text-white/65">
-            <span className="whitespace-nowrap">Size</span>
+            <span className="whitespace-nowrap">Размер</span>
             <input
               type="range"
               min="2"
@@ -457,16 +457,16 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
           </label>
 
           <div className="flex shrink-0 flex-wrap items-center gap-2">
-            <button type="button" title="Undo" onClick={undo} disabled={historyIndex === 0} className="icon-button">
+            <button type="button" title="Отменить" onClick={undo} disabled={historyIndex === 0} className="icon-button">
               <Undo2 className="h-4 w-4" />
             </button>
-            <button type="button" title="Redo" onClick={redo} disabled={historyIndex >= history.length - 1} className="icon-button">
+            <button type="button" title="Повторить" onClick={redo} disabled={historyIndex >= history.length - 1} className="icon-button">
               <Redo2 className="h-4 w-4" />
             </button>
-            <button type="button" title="Clear canvas" onClick={clearCanvas} className="icon-button">
+            <button type="button" title="Очистить холст" onClick={clearCanvas} className="icon-button">
               <Trash2 className="h-4 w-4" />
             </button>
-            <button type="button" title="Save drawing" onClick={downloadImage} className="icon-button">
+            <button type="button" title="Сохранить рисунок" onClick={downloadImage} className="icon-button">
               <Download className="h-4 w-4" />
             </button>
           </div>
@@ -475,15 +475,15 @@ export function CanvasEditor({ onResult, onRecognizing, onHistoryItem }: CanvasE
         <div className="flex flex-wrap gap-3 2xl:justify-end">
           <button type="button" onClick={clearCanvas} className="secondary-button">
             <RotateCcw className="h-4 w-4" />
-            Clear
+            Очистить
           </button>
           <button type="button" onClick={downloadImage} className="secondary-button">
             <Save className="h-4 w-4" />
-            Save
+            Сохранить
           </button>
           <button type="button" onClick={recognize} className="primary-button">
             <Sparkles className="h-4 w-4" />
-            Recognize
+            Распознать
           </button>
         </div>
       </div>

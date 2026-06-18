@@ -2,9 +2,9 @@ import Link from "next/link";
 import { AudioLines, History, Info, Sparkles } from "lucide-react";
 
 const navItems = [
-  { href: "/", label: "Studio", icon: Sparkles },
-  { href: "/history", label: "History", icon: History },
-  { href: "/about", label: "About", icon: Info }
+  { href: "/", label: "Студия", icon: Sparkles },
+  { href: "/history", label: "История", icon: History },
+  { href: "/about", label: "О проекте", icon: Info }
 ];
 
 export function Navigation() {
@@ -17,7 +17,7 @@ export function Navigation() {
           </span>
           <span>
             <span className="block text-base font-black text-white">EchoGlyph</span>
-            <span className="block text-xs text-white/45">logo recognition studio</span>
+            <span className="block text-xs text-white/45">студия распознавания логотипов</span>
           </span>
         </Link>
 

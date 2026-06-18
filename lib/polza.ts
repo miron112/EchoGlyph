@@ -47,7 +47,7 @@ function parseJson(content: string): AiRecognition {
 function normalizeAiResult(result: AiRecognition): RecognitionResponse {
   const recognized = result.recognized !== false;
   const knownBand = findKnownBand(result.group);
-  const group = result.group?.trim() || knownBand?.group || "Unknown band";
+  const group = result.group?.trim() || knownBand?.group || "Неизвестная группа";
   const confidence = Math.min(98, Math.max(35, Math.round(Number(result.confidence ?? 62))));
   const topSongs = Array.isArray(result.topSongs) && result.topSongs.length > 0 ? result.topSongs.slice(0, 5) : knownBand?.topSongs;
   const alternatives = Array.isArray(result.alternatives)
@@ -56,7 +56,7 @@ function normalizeAiResult(result: AiRecognition): RecognitionResponse {
 
   if (!recognized || confidence < 55 || group.toLowerCase() === "unknown") {
     return {
-      group: "No recognizable logo",
+      group: "Логотип не распознан",
       confidence: Math.min(confidence, 54),
       alternatives: [],
       image: "none",
@@ -64,7 +64,7 @@ function normalizeAiResult(result: AiRecognition): RecognitionResponse {
       description:
         result.reason?.trim() ||
         result.description?.trim() ||
-        "The drawing does not contain enough recognizable band-logo structure to make a reliable match.",
+        "В рисунке недостаточно узнаваемых элементов логотипа музыкальной группы для надёжного сопоставления.",
       topSongs: [],
       analyzedAt: new Date().toISOString(),
       source: "polza-ai",
@@ -96,8 +96,8 @@ function normalizeAiResult(result: AiRecognition): RecognitionResponse {
     accent: "#7df9ff",
     description:
       result.description?.trim() ||
-      "AI recognized this as a music-related logo, but it is not in the local curated catalog yet.",
-    topSongs: topSongs ?? ["Unknown track", "Unknown track", "Unknown track", "Unknown track", "Unknown track"],
+      "ИИ распознал музыкальный логотип, но его пока нет в локальном каталоге.",
+    topSongs: topSongs ?? ["Неизвестная композиция", "Неизвестная композиция", "Неизвестная композиция", "Неизвестная композиция", "Неизвестная композиция"],
     analyzedAt: new Date().toISOString(),
     source: "polza-ai",
     recognized: true,
@@ -113,7 +113,7 @@ export async function recognizeLogoWithPolza(image: string, features?: DrawingFe
   const apiKey = process.env.POLZA_AI_API_KEY;
 
   if (!apiKey) {
-    throw new Error("POLZA_AI_API_KEY is not configured.");
+    throw new Error("Переменная POLZA_AI_API_KEY не настроена.");
   }
 
   const model = process.env.POLZA_AI_MODEL || DEFAULT_MODEL;
@@ -121,17 +121,17 @@ export async function recognizeLogoWithPolza(image: string, features?: DrawingFe
 
   if (features && (features.inkRatio < 0.0025 || features.bboxCoverage < 0.01)) {
     return {
-      group: "No recognizable logo",
+      group: "Логотип не распознан",
       confidence: 0,
       alternatives: [],
       image: "none",
       accent: "#7df9ff",
-      description: "The drawing is too small or sparse to identify as a band logo.",
+      description: "Рисунок слишком маленький или разреженный, чтобы распознать в нём логотип группы.",
       topSongs: [],
       analyzedAt: new Date().toISOString(),
       source: "polza-ai",
       recognized: false,
-      reason: "too little visual information"
+      reason: "слишком мало визуальной информации"
     };
   }
 
@@ -142,7 +142,7 @@ export async function recognizeLogoWithPolza(image: string, features?: DrawingFe
         (features.verticalSymmetry + features.horizontalSymmetry) /
         2
       ).toFixed(2)}, hue=${features.meanHue.toFixed(0)}.`
-    : "Canvas features are unavailable.";
+    : "Характеристики холста недоступны.";
 
   const response = await fetch(POLZA_API_URL, {
     method: "POST",
@@ -159,34 +159,35 @@ export async function recognizeLogoWithPolza(image: string, features?: DrawingFe
         {
           role: "system",
           content:
-            "You are a conservative open-world visual recognition engine for hand-drawn music artist and band logos. You may identify any real musical artist or band worldwide, including Russian and non-English artists. Your first job is to reject non-logos, random marks, simple lines, dots, scribbles, blank canvases, and drawings without distinctive music-logo structure. Return only valid JSON. Do not add markdown."
+            "Ты — осторожная система визуального распознавания нарисованных от руки логотипов музыкальных исполнителей и групп со всего мира. Ты можешь определять любых реальных исполнителей и группы, включая русскоязычных. Сначала отбрасывай изображения, которые не являются логотипами: случайные знаки, простые линии, точки, каракули, пустые холсты и рисунки без характерной структуры музыкального логотипа. Всегда отвечай на русском языке. Возвращай только допустимый JSON без Markdown."
         },
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: `Analyze this canvas as a possible hand-drawn music artist or band logo. This is an open-world recognition task: do not limit yourself to the local catalog. You can answer with any real music group or artist if the logo is recognizable, including Russian artists and bands. The local catalog is only a UI enhancement list for known matches, not a whitelist: ${catalog}. ${featureSummary}
+              text: `Проанализируй этот холст как возможный нарисованный от руки логотип музыкального исполнителя или группы. Не ограничивайся локальным каталогом: если логотип узнаваем, можно указать любого реального исполнителя или группу, включая русскоязычных. Локальный каталог нужен только для улучшенного отображения известных совпадений и не является белым списком: ${catalog}. ${featureSummary}
 
-Rules:
-- If the drawing is blank, a single line, a simple stripe, a dot, random scribble, or too generic, return "recognized": false.
-- If there is not enough distinctive visual evidence for a real band logo, return "recognized": false.
-- Do not guess just to fill the answer.
-- Do not force the answer into the local catalog.
-- Use confidence below 55 when recognized is false.
-- Return recognized true only when visible features strongly resemble a known music logo, mascot, emblem, wordmark, or artist symbol.
-- If the logo belongs to a real artist or band outside the local catalog, return that artist or band name.
-- For topSongs, return five well-known songs by the recognized artist when possible.
+Правила:
+- Если рисунок пустой, состоит из одной линии, простой полосы, точки, случайных каракулей или слишком общий, верни "recognized": false.
+- Если недостаточно характерных визуальных признаков настоящего логотипа группы, верни "recognized": false.
+- Не угадывай только ради заполнения ответа.
+- Не подгоняй ответ под локальный каталог.
+- Когда recognized равно false, confidence должно быть меньше 55.
+- Возвращай recognized true только тогда, когда видимые элементы явно напоминают известный музыкальный логотип, талисман, эмблему, фирменное написание или символ исполнителя.
+- Если логотип принадлежит реальному исполнителю или группе вне локального каталога, укажи их название.
+- Для topSongs по возможности верни пять известных песен распознанного исполнителя.
+- Поля description и reason обязательно заполняй на русском языке. Названия исполнителей и песен сохраняй в оригинале.
 
-Return JSON with exactly:
+Верни JSON строго следующего вида:
 {
   "recognized": true/false,
-  "group": "Band name",
+  "group": "Название группы",
   "confidence": 0-100,
-  "alternatives": ["Band 1", "Band 2", "Band 3"],
-  "description": "One short sentence about why this logo matches",
-  "topSongs": ["Song 1", "Song 2", "Song 3", "Song 4", "Song 5"],
-  "reason": "Short reason when recognized is false"
+  "alternatives": ["Группа 1", "Группа 2", "Группа 3"],
+  "description": "Одно короткое предложение о причине совпадения",
+  "topSongs": ["Песня 1", "Песня 2", "Песня 3", "Песня 4", "Песня 5"],
+  "reason": "Краткая причина, если recognized равно false"
 }`
             },
             {
@@ -203,14 +204,14 @@ Return JSON with exactly:
   });
 
   if (!response.ok) {
-    throw new Error(`Polza.ai recognition failed: ${response.status}`);
+    throw new Error(`Ошибка распознавания Polza.ai: ${response.status}`);
   }
 
   const data = (await response.json()) as PolzaResponse;
   const content = data.choices?.[0]?.message?.content;
 
   if (!content) {
-    throw new Error("Polza.ai returned an empty recognition response.");
+    throw new Error("Polza.ai вернул пустой ответ распознавания.");
   }
 
   return normalizeAiResult(parseJson(content));

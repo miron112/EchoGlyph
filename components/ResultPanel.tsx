@@ -18,8 +18,8 @@ export function ResultPanel({ result, loading = false }: ResultPanelProps) {
           <div className="mx-auto mb-5 grid h-16 w-16 animate-pulse place-items-center rounded-full border border-neon/40 bg-neon/10">
             <Sparkles className="h-7 w-7 text-neon" />
           </div>
-          <h2 className="text-xl font-bold text-white">Listening to the glyph</h2>
-          <p className="mt-2 text-sm text-white/55">Matching strokes, silhouettes, and logo rhythm.</p>
+          <h2 className="text-xl font-bold text-white">Распознаём символ</h2>
+          <p className="mt-2 text-sm text-white/55">Сопоставляем линии, силуэты и ритм логотипа.</p>
         </div>
       </div>
     );
@@ -30,9 +30,9 @@ export function ResultPanel({ result, loading = false }: ResultPanelProps) {
       <div className="glass-panel min-h-[520px] p-6">
         <div className="flex h-full min-h-[460px] flex-col justify-center rounded-lg border border-dashed border-white/15 bg-white/[0.03] p-8 text-center">
           <Sparkles className="mx-auto h-10 w-10 text-neon" />
-          <h2 className="mt-5 text-2xl font-black text-white">Draw a band logo</h2>
+          <h2 className="mt-5 text-2xl font-black text-white">Нарисуйте логотип группы</h2>
           <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-white/55">
-            Sketch a mark, hit recognize, and EchoGlyph will return the closest band with songs ready to play in your head.
+            Сделайте набросок, нажмите «Распознать», и EchoGlyph найдёт наиболее похожую группу и предложит её песни.
           </p>
         </div>
       </div>
@@ -51,11 +51,11 @@ export function ResultPanel({ result, loading = false }: ResultPanelProps) {
           <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-neon/35 bg-neon/10">
             <CircleOff className="h-8 w-8 text-neon" />
           </div>
-          <p className="mt-6 text-sm font-semibold text-neon">No confident match</p>
-          <h2 className="mt-2 text-3xl font-black text-white">Logo not recognized</h2>
+          <p className="mt-6 text-sm font-semibold text-neon">Надёжного совпадения нет</p>
+          <h2 className="mt-2 text-3xl font-black text-white">Логотип не распознан</h2>
           <p className="mx-auto mt-4 max-w-sm text-sm leading-6 text-white/58">{result.description}</p>
           <div className="mx-auto mt-6 rounded-lg border border-white/10 bg-black/20 px-4 py-3">
-            <p className="text-xs font-semibold uppercase text-white/35">Confidence</p>
+            <p className="text-xs font-semibold uppercase text-white/35">Уверенность</p>
             <p className="mt-1 text-xl font-black text-white">{result.confidence}%</p>
           </div>
         </div>
@@ -75,14 +75,14 @@ export function ResultPanel({ result, loading = false }: ResultPanelProps) {
         <div>
           <p className="flex items-center gap-2 text-sm font-semibold text-neon">
             <BadgeCheck className="h-4 w-4" />
-            {result.catalogMatch === false ? "AI match" : "Best match"}
+            {result.catalogMatch === false ? "Совпадение от ИИ" : "Лучшее совпадение"}
           </p>
           <h2 className="mt-1 text-3xl font-black text-white">{result.group}</h2>
         </div>
         <div className="rounded-lg border border-white/10 bg-white/[0.06] px-3 py-2 text-right">
           <p className="flex items-center gap-1 text-xs text-white/45">
             <Percent className="h-3 w-3" />
-            Confidence
+            Уверенность
           </p>
           <p className="text-xl font-black text-white">{result.confidence}%</p>
         </div>
@@ -93,7 +93,7 @@ export function ResultPanel({ result, loading = false }: ResultPanelProps) {
       <div className="mt-6">
         <p className="mb-3 flex items-center gap-2 text-sm font-bold text-white">
           <ListMusic className="h-4 w-4 text-pulse" />
-          Top songs
+          Лучшие песни
         </p>
         <div className="space-y-2">
           {result.topSongs.map((song, index) => (
@@ -110,7 +110,7 @@ export function ResultPanel({ result, loading = false }: ResultPanelProps) {
       </div>
 
       <div className="mt-6 rounded-lg border border-white/10 bg-black/20 p-4">
-        <p className="text-xs font-semibold uppercase text-white/35">Alternatives</p>
+        <p className="text-xs font-semibold uppercase text-white/35">Другие варианты</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {result.alternatives.map((item) => (
             <span key={item} className="rounded-md border border-white/10 bg-white/[0.05] px-3 py-1 text-xs text-white/70">

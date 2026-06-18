@@ -2,23 +2,23 @@ import { BrainCircuit, Database, Paintbrush, Radio } from "lucide-react";
 
 const features = [
   {
-    title: "Canvas-first editor",
-    text: "Mouse and touch drawing, brush controls, eraser, undo, redo, export, and reload recovery.",
+    title: "Удобный редактор",
+    text: "Рисование мышью и касанием, настройка кисти, ластик, отмена и повтор действий, экспорт и восстановление после перезагрузки.",
     icon: Paintbrush
   },
   {
-    title: "Recognition API",
-    text: "The /api/recognize route accepts the drawing image and returns a clean JSON contract for future ML integration.",
+    title: "API распознавания",
+    text: "Маршрут /api/recognize принимает изображение рисунка и возвращает структурированный JSON для будущей интеграции с моделью машинного обучения.",
     icon: BrainCircuit
   },
   {
-    title: "Music profiles",
-    text: "Each match includes visual identity, confidence, description, alternatives, and five top songs.",
+    title: "Музыкальные профили",
+    text: "Каждый результат содержит визуальный образ, оценку уверенности, описание, другие варианты и пять лучших песен.",
     icon: Radio
   },
   {
-    title: "Local history",
-    text: "Search history stays in localStorage so users can reopen drawings after refreshes or later visits.",
+    title: "Локальная история",
+    text: "История поиска хранится в браузере, поэтому рисунки можно открыть снова после обновления страницы или при следующем посещении.",
     icon: Database
   }
 ];
@@ -28,10 +28,10 @@ export default function AboutPage() {
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <section className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
         <div>
-          <p className="text-sm font-semibold uppercase text-pulse">About EchoGlyph</p>
-          <h1 className="mt-3 text-4xl font-black text-white sm:text-6xl">A recognition studio for musical marks.</h1>
+          <p className="text-sm font-semibold uppercase text-pulse">О проекте EchoGlyph</p>
+          <h1 className="mt-3 text-4xl font-black text-white sm:text-6xl">Студия распознавания музыкальных символов.</h1>
           <p className="mt-5 text-base leading-7 text-white/60">
-            EchoGlyph is a full-stack Next.js prototype for drawing band logos and receiving a polished music result. The current engine is mock AI by design, but the API boundary is ready for a real computer vision model.
+            EchoGlyph — полнофункциональный прототип на Next.js для рисования логотипов групп и получения подробного музыкального результата. Текущий движок использует демонстрационный ИИ, а API уже подготовлен для подключения настоящей модели компьютерного зрения.
           </p>
         </div>
         <div className="glass-panel overflow-hidden p-6">
@@ -41,7 +41,7 @@ export default function AboutPage() {
             <div className="absolute right-10 top-16 h-28 w-28 rounded-full border border-pulse/40 bg-pulse/10 shadow-magenta" />
             <div className="absolute bottom-10 left-12 right-12 rounded-lg border border-white/10 bg-white/[0.06] p-5 backdrop-blur">
               <p className="text-sm font-semibold text-neon">/api/recognize</p>
-              <p className="mt-2 text-2xl font-black text-white">Canvas image to band profile</p>
+              <p className="mt-2 text-2xl font-black text-white">От рисунка к профилю группы</p>
             </div>
           </div>
         </div>
